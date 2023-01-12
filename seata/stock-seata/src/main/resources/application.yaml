@@ -1,0 +1,40 @@
+server:
+  port: 8071
+spring:
+  application:
+    name: stock-seata
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8844
+      discovery:
+        username: nacos
+        password: nacos
+        # 可以隔离不同的实例
+        namespace: public
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:33068/order?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  mapper-locations: classpath:io/chenylnti/stock/mapper/*.xml
+  type-aliases-package: io.chenylnti.stock.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+seata:
+  tx-service-group: guangzhou
+  registry:
+    # 配置seata注册中心
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8844
+      application: seata-server
+      username: nacos
+      password: nacos
+  config:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8844
+      username: nacos
+      password: nacos

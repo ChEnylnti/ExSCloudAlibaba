@@ -1,0 +1,37 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      # 路由规则
+      routes:
+        - id: order_route  # 标识路由，路由到order
+          uri: lb://order-service #需要转发的地址,整合nacos之后就可以把地址改成服务名,lb的意思说loadbalance，使用nacos本地负载均衡策略
+          # 断言规则
+          predicates:
+            - Path=/order-serv/**  #得用等于号，相对于直接给一个值
+              # http://localhost:8088/order-serv/order/add 路由到⬇
+              # http://localhost:8020/order-serv/order/add
+            - CheckAuth=ag # 自定义的断言工厂
+          filters: #通过过滤器过滤掉一级目录
+            - StripPrefix=1 # 转发之前去掉第一层路径
+            # http://localhost:8020/order/add
+      # 跨域配置
+      globalcors:
+        cors-configurations:
+          '[/**]': #允许跨域访问的资源
+            allowedOrigins: "*" #跨域允许的来源
+            allowedMethods: #允许跨域的请求
+              - GET
+              - POST
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8844
+        username: nacos
+        password: nacos
+    # 整合sentinel流控降级
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8858

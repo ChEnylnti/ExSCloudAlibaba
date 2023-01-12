@@ -1,0 +1,15 @@
+server:
+  port: 8021
+spring:
+  application:
+    name: stock-service
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8844
+      discovery:
+        username: nacos
+        password: nacos
+        # 可以隔离不同的实例
+        namespace: public
+        # 永久实例 哪怕宕机了也不会删除实例
+        ephemeral: false

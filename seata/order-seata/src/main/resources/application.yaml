@@ -1,0 +1,27 @@
+server:
+  port: 8070
+  # 应用名称（nacos会将该名称当做服务名称）
+spring:
+  application:
+    name: order-seata
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8844
+      discovery:
+        username: nacos
+        password: nacos
+        # 可以隔离不同的实例
+        namespace: public
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:33068/order?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  mapper-locations: classpath:io/chenylnti/order/mapper/*.xml
+  type-aliases-package: io.chenylnti.order.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+seata:
+  tx-service-group: guangzhou
